@@ -1,15 +1,14 @@
 import { auth } from "@/lib/auth"
 
 export default auth((req) => {
-  const { nextUrl } = req
   const isLoggedIn = !!req.auth
 
   const protectedRoutes = ["/settings"]
 
-  if (!isLoggedIn && protectedRoutes.includes(nextUrl.pathname)) {
+  if (!isLoggedIn && protectedRoutes.includes(req.nextUrl.pathname)) {
     const redirectUrl = new URL(
-      `/auth/login?callbackUrl=${encodeURIComponent(nextUrl.pathname)}`,
-      nextUrl,
+      `/auth/login?callbackUrl=${encodeURIComponent(req.nextUrl.pathname)}`,
+      req.nextUrl,
     )
     return Response.redirect(redirectUrl)
   }
