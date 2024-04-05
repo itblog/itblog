@@ -14,7 +14,9 @@ export const Navbar = async () => {
           </h1>
         </div>
 
-        <div className="flex items-center gap-x-2">{session?.user ? <UserMenu /> : <LoginButton />}</div>
+        <div className="flex items-center gap-x-2">
+          {session?.user ? <UserMenu /> : <LoginButton />}
+        </div>
       </div>
     </nav>
   )
