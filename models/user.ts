@@ -1,29 +1,35 @@
-import { ObjectId } from "mongodb"
+import { type FindOptions, ObjectId } from "mongodb"
 import { db } from "./db"
 import { AdapterUser } from "@auth/core/adapters"
 
 export interface User extends AdapterUser {
-  username?: string
-  password?: string
-  createdAt?: Date
-  updatedAt?: Date
+  username?: string | null
+  password?: string | null
+  createdAt?: Date | null
+  updatedAt?: Date | null
 }
 
-export async function getUserById(id: string | ObjectId) {
+export async function getUserById(
+  id: string | ObjectId,
+  options?: FindOptions,
+) {
   const users = db.collection<User>("users")
   const _id = typeof id === "string" ? new ObjectId(id) : id
   const filter = { _id }
-  return await users.findOne(filter)
+  return await users.findOne(filter, options)
 }
 
-export async function getUserByEmail(email: string) {
+export async function getUserByEmail(email: string, options?: FindOptions) {
   const users = db.collection<User>("users")
-  return await users.findOne({ email })
+  return await users.findOne({ email }, options)
 }
 
-export async function getUserByUsername(username: string) {
+export async function getUserByUsername(
+  username: string,
+  options?: FindOptions,
+) {
   const users = db.collection<User>("users")
-  const user = await users.findOne({ username })
+  const user = await users.findOne({ username }, options)
   return user
 }
 
@@ -43,7 +49,7 @@ export async function createUser(user: User) {
   if (user.username) {
     const existsUser = await getUserByUsername(user.username)
     if (existsUser) {
-      user.username = ""
+      user.username = null
     }
   }
   const doc = {

@@ -72,10 +72,13 @@ export const MyAdapter: Adapter = {
     if (!session) {
       return null
     }
-    const user = await getUserById(session.userId)
+    const user = await getUserById(session.userId, {
+      projection: { name: 1, username: 1, image: 1 },
+    })
     if (!user) {
       return null
     }
+
     return {
       session: format.from<AdapterSession>(session),
       user: format.from<AdapterUser>(user),
