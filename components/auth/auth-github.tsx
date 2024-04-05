@@ -11,12 +11,12 @@ export const AuthGitHub = () => {
   const [loading, setLoading] = useState(false)
 
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get("callbackUrl")
+  const callbackUrl = searchParams.get("callbackUrl") || "/"
 
   const handleClick = async () => {
     setLoading(true)
     await signIn("github", {
-      callbackUrl: callbackUrl || "/",
+      callbackUrl: callbackUrl,
     })
   }
 
