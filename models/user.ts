@@ -35,7 +35,7 @@ export async function updateUserById(
   const _id = typeof id === "string" ? new ObjectId(id) : id
   const filter = { _id }
   return await users.findOneAndUpdate(filter, {
-    $set: { ...user },
+    $set: { ...user, updatedAt: new Date() },
   })
 }
 
@@ -48,8 +48,8 @@ export async function createUser(user: User) {
   }
   const doc = {
     ...user,
-    // createdAt: new Date(),
-    // updatedAt: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
   }
   const users = db.collection<User>("users")
   const { insertedId } = await users.insertOne(doc)
