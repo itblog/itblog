@@ -1,6 +1,5 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import { signOut } from "next-auth/react"
 import { LoginButton } from "../auth/login-button"
 
@@ -16,9 +15,9 @@ import {
   DropdownMenuSeparator,
 } from "../ui/dropdown-menu"
 import { useSessionUser } from "@/hooks/use-session-user"
+import Link from "next/link"
 
 export const UserMenu = () => {
-  const router = useRouter()
   const user = useSessionUser()
 
   if (!user) {
@@ -33,16 +32,15 @@ export const UserMenu = () => {
           <AvatarFallback>{user.name?.slice(0, 1)}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent sideOffset={8} align="end" className="w-[180px] p-3">
+      <DropdownMenuContent sideOffset={8} align="end" className="w-[180px]">
         <DropdownMenuItem
           className="flex cursor-pointer items-center gap-x-2"
-          onSelect={(e) => {
-            e.preventDefault()
-            router.push("/settings")
-          }}
+          asChild
         >
-          <IoSettingsOutline className="text-muted-foreground h-4 w-4" />
-          <span>Settings</span>
+          <Link href={"/settings"}>
+            <IoSettingsOutline className="h-4 w-4 text-muted-foreground" />
+            <span>Settings</span>
+          </Link>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
@@ -54,7 +52,7 @@ export const UserMenu = () => {
           }}
           className="flex cursor-pointer items-center gap-x-2"
         >
-          <PiSignOut className="text-muted-foreground h-4 w-4" />
+          <PiSignOut className="h-4 w-4 text-muted-foreground" />
           <span>Sign out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
