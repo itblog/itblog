@@ -17,9 +17,8 @@ export async function getSession(sessionToken: string) {
 
 export async function updateSession(data: Session) {
   const sessions = db.collection<Session>("sessions")
-  const { sessionToken, ...session } = data
-
-  return await sessions.findOneAndUpdate({ sessionToken }, { $set: session })
+  const { sessionToken } = data
+  return await sessions.findOneAndUpdate({ sessionToken }, { $set: data })
 }
 
 export async function deleteSession(sessionToken: string) {
