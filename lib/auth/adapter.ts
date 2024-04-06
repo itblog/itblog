@@ -21,9 +21,9 @@ import {
 import { createAccount, getAccount } from "@/models/account"
 
 export const MyAdapter: Adapter = {
-  createUser: async (data) => {
+  createUser: async ({ id, ...data }) => {
     const user = format.to<AdapterUser>(data)
-    await createUser(user)
+    user._id = await createUser(user)
     return format.from<AdapterUser>(user)
   },
   getUser: async (id) => {
@@ -113,20 +113,17 @@ const format = {
   },
   /** Takes a plain old JavaScript object and turns it into a mongoDB object */
   to<T = Record<string, unknown>>(object: Record<string, any>) {
-    const newObject: Record<string, unknown> = {
-      _id: _id(object.id),
-    }
+    const newObject: Record<string, unknown> = {}
     for (const key in object) {
       const value = object[key]
-      if (key === "userId") newObject[key] = _id(value)
-      else if (key === "id") continue
-      else newObject[key] = value
+      if (key === "id") {
+        newObject._id = new ObjectId(value as string)
+      } else if (key === "userId") {
+        newObject[key] = new ObjectId(value as string)
+      } else {
+        newObject[key] = value
+      }
     }
     return newObject as T & { _id: ObjectId }
   },
-}
-
-function _id(hex?: string) {
-  if (hex?.length !== 24) return new ObjectId()
-  return new ObjectId(hex)
 }
