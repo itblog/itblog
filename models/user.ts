@@ -4,9 +4,10 @@ import { AdapterUser } from "@auth/core/adapters"
 
 export interface User extends AdapterUser {
   username?: string | null
-  password?: string | null
-  createdAt?: Date | null
-  updatedAt?: Date | null
+  password?: string
+  githubUrl?: string
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export async function getUserById(
