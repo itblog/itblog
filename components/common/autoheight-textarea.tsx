@@ -69,3 +69,5 @@ export const AutoHeightTextarea = forwardRef<
     )
   },
 )
+
+AutoHeightTextarea.displayName = "AutoHeightTextarea"
