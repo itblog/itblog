@@ -18,7 +18,9 @@ export const PostCard = ({ post }: { post: WithId<Post> }) => {
           </time>
         </CardTitle>
       </CardHeader>
-      <CardContent>{post.content}</CardContent>
+      <CardContent>
+        <p className="whitespace-pre-wrap">{post.content}</p>
+      </CardContent>
     </Card>
   )
 }

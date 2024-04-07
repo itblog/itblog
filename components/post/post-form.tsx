@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormMessage } from "../ui/form"
 import { useToast } from "../ui/use-toast"
+import { AutoHeightTextarea } from "../common/autoheight-textarea"
 
 export const PostForm = () => {
   const { toast } = useToast()
@@ -49,12 +50,15 @@ export const PostForm = () => {
           render={({ field }) => (
             <FormItem className="flex-1">
               <FormControl>
-                <Textarea
-                  rows={1}
-                  className="min-h-0"
-                  {...field}
-                  placeholder="What's on your mind?"
-                ></Textarea>
+                <>
+                  <AutoHeightTextarea
+                    rows={1}
+                    maxRows={3}
+                    className="min-h-0"
+                    {...field}
+                    placeholder="What's on your mind?"
+                  />
+                </>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -62,7 +66,7 @@ export const PostForm = () => {
         />
         <div className="flex justify-between">
           <div>{/* ... */}</div>
-          <Button type="submit" disabled={isPending}>
+          <Button size="sm" type="submit" disabled={isPending}>
             Post
           </Button>
         </div>
