@@ -15,3 +15,8 @@ export const {
   },
   ...authConfig,
 })
+
+export const getSessionUserId = async () => {
+  const session = await auth()
+  return session?.user.id
+}

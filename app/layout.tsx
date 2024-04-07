@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react"
 import "@/styles/index.css"
 import { auth } from "@/lib/auth"
 import { Navbar } from "@/components/common/navbar"
+import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,6 +26,7 @@ export default async function RootLayout({
           <Navbar />
           {children}
         </SessionProvider>
+        <Toaster />
       </body>
     </html>
   )
