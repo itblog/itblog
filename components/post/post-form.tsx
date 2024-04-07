@@ -49,7 +49,10 @@ export const PostForm = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Textarea {...field} placeholder=""></Textarea>
+                <Textarea
+                  {...field}
+                  placeholder="What's on your mind?"
+                ></Textarea>
               </FormControl>
               <FormMessage />
             </FormItem>

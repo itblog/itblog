@@ -20,3 +20,9 @@ export const createPost = async (data: Post) => {
 
   return insertedId
 }
+
+export const getLatestPosts = async () => {
+  const posts = db.collection<Post>("posts")
+  const docs = await posts.find().sort({ _id: -1 }).limit(50).toArray()
+  return docs
+}

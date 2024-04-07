@@ -4,6 +4,7 @@ import { getSessionUser } from "@/lib/auth"
 import { Post, createPost } from "@/models/post"
 import { PostSchema, postSchema } from "@/schemas/post"
 import { ObjectId } from "mongodb"
+import { revalidatePath } from "next/cache"
 
 export const submitPost = async (data: PostSchema) => {
   const user = await getSessionUser()
@@ -25,4 +26,5 @@ export const submitPost = async (data: PostSchema) => {
     content: content,
   }
   await createPost(post)
+  revalidatePath("/")
 }
