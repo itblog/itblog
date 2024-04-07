@@ -42,14 +42,16 @@ export const PostForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-2">
         <FormField
           control={form.control}
           name="content"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex-1">
               <FormControl>
                 <Textarea
+                  rows={1}
+                  className="min-h-0"
                   {...field}
                   placeholder="What's on your mind?"
                 ></Textarea>
@@ -58,10 +60,12 @@ export const PostForm = () => {
             </FormItem>
           )}
         />
-
-        <Button type="submit" disabled={isPending}>
-          Post
-        </Button>
+        <div className="flex justify-between">
+          <div>{/* ... */}</div>
+          <Button type="submit" disabled={isPending}>
+            Post
+          </Button>
+        </div>
       </form>
     </Form>
   )
