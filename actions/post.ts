@@ -1,13 +1,13 @@
 "use server"
 
-import { getSessionUserId } from "@/lib/auth"
+import { getSessionUser } from "@/lib/auth"
 import { Post, createPost } from "@/models/post"
 import { PostSchema, postSchema } from "@/schemas/post"
 import { ObjectId } from "mongodb"
 
 export const submitPost = async (data: PostSchema) => {
-  const userId = await getSessionUserId()
-  if (!userId) {
+  const user = await getSessionUser()
+  if (!user) {
     return {
       error: "Unauthorized",
     }
@@ -21,7 +21,7 @@ export const submitPost = async (data: PostSchema) => {
   const { content } = validation.data
 
   const post: Post = {
-    userId: new ObjectId(userId),
+    userId: new ObjectId(user.id),
     content: content,
   }
   await createPost(post)

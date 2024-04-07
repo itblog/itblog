@@ -16,7 +16,7 @@ export const {
   ...authConfig,
 })
 
-export const getSessionUserId = async () => {
+export const getSessionUser = async () => {
   const session = await auth()
-  return session?.user.id
+  return session?.user
 }
