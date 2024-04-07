@@ -1,6 +1,6 @@
 import { ObjectId, WithId } from "mongodb"
 import { db } from "./db"
-import { User } from "next-auth"
+import { User } from "./user"
 
 export interface Post {
   userId: ObjectId
@@ -52,7 +52,7 @@ export const getLatestPosts = async () => {
   })
   const docs = (await posts
     .aggregate(pipeline)
-    .limit(3)
+    .limit(50)
     .sort({ _id: -1 })
     .toArray()) as WithId<PostWithUser>[]
 
