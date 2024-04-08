@@ -11,34 +11,34 @@ export interface User extends AdapterUser {
   updatedAt?: Date
 }
 
-export async function getUserById(
+export const getUserById = async (
   id: string | ObjectId,
   options?: FindOptions,
-) {
+) => {
   const users = db.collection<User>("users")
   const _id = typeof id === "string" ? new ObjectId(id) : id
   const filter = { _id }
   return await users.findOne(filter, options)
 }
 
-export async function getUserByEmail(email: string, options?: FindOptions) {
+export const getUserByEmail = async (email: string, options?: FindOptions) => {
   const users = db.collection<User>("users")
   return await users.findOne({ email }, options)
 }
 
-export async function getUserByUsername(
+export const getUserByUsername = async (
   username: string,
   options?: FindOptions,
-) {
+) => {
   const users = db.collection<User>("users")
   const user = await users.findOne({ username }, options)
   return user
 }
 
-export async function updateUserById(
+export const updateUserById = async (
   id: string | ObjectId,
   user: Partial<User>,
-) {
+) => {
   const users = db.collection<User>("users")
   const _id = typeof id === "string" ? new ObjectId(id) : id
   const filter = { _id }
@@ -47,7 +47,7 @@ export async function updateUserById(
   })
 }
 
-export async function createUser(user: User) {
+export const createUser = async (user: User) => {
   if (user.username) {
     const existsUser = await getUserByUsername(user.username)
     if (existsUser) {

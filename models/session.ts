@@ -3,25 +3,25 @@ import { db } from "./db"
 
 export interface Session extends AdapterSession {}
 
-export async function createSession(data: Session) {
+export const createSession = async (data: Session) => {
   const sessions = db.collection<Session>("sessions")
   const { insertedId } = await sessions.insertOne(data)
   return insertedId
 }
 
-export async function getSession(sessionToken: string) {
+export const getSession = async (sessionToken: string) => {
   const sessions = db.collection<Session>("sessions")
 
   return await sessions.findOne({ sessionToken })
 }
 
-export async function updateSession(data: Session) {
+export const updateSession = async (data: Session) => {
   const sessions = db.collection<Session>("sessions")
   const { sessionToken } = data
   return await sessions.findOneAndUpdate({ sessionToken }, { $set: data })
 }
 
-export async function deleteSession(sessionToken: string) {
+export const deleteSession = async (sessionToken: string) => {
   const sessions = db.collection<Session>("sessions")
   return await sessions.findOneAndDelete({ sessionToken })
 }
