@@ -7,8 +7,8 @@ export interface User extends AdapterUser {
   password?: string
   bio?: string
   githubUrl?: string
-  createdAt?: Date
-  updatedAt?: Date
+  createdAt: Date
+  updatedAt: Date
 }
 
 export const getUserById = async (

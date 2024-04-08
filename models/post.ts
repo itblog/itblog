@@ -5,8 +5,8 @@ import { User } from "./user"
 export interface Post {
   userId: ObjectId
   content: string
-  createdAt?: Date
-  updatedAt?: Date
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface PostWithUser extends Post {
