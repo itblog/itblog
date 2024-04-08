@@ -16,7 +16,8 @@ export default async function Page({
     <main className="mx-auto max-w-4xl">
       <div className="my-10 flex flex-col items-center gap-4">
         <UserAvatar user={user} className="h-20 w-20" />
-        <h1>{username}</h1>
+        <h1>{user.name}</h1>
+        <p>{user.bio}</p>
       </div>
     </main>
   )

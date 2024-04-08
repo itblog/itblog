@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "itblog",
-  description: "itblog",
+  title: { default: "itblog", template: "%s - itblog" },
+  description: "",
 }
 
 export default async function RootLayout({
