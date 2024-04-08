@@ -1,19 +1,13 @@
 import { type PostWithUser } from "@/models/post"
 import { type WithId } from "mongodb"
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import Link from "next/link"
+import { UserAvatar } from "../user/user-avatar"
 
 export const PostCard = ({ post }: { post: WithId<PostWithUser> }) => {
   return (
     <div className="flex gap-4 border-b py-1">
       <Link href={`/${post.user.username}`}>
-        <Avatar>
-          <AvatarImage
-            src={post.user?.image || ""}
-            alt={post.user?.name || ""}
-          />
-          <AvatarFallback>{post.user?.name?.slice(0, 1)}</AvatarFallback>
-        </Avatar>
+        <UserAvatar user={post.user} />
       </Link>
       <div className="space-y-1">
         <div>
