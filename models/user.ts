@@ -5,6 +5,7 @@ import { AdapterUser } from "@auth/core/adapters"
 export interface User extends AdapterUser {
   username?: string | null
   password?: string
+  bio?: string
   githubUrl?: string
   createdAt?: Date
   updatedAt?: Date

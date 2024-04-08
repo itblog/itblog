@@ -11,6 +11,7 @@ export const authConfig = {
           email: profile.email,
           image: profile.avatar_url,
           username: profile.login,
+          bio: profile.bio,
           githubUrl: profile.html_url,
         }
       },

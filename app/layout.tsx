@@ -3,8 +3,8 @@ import { Inter } from "next/font/google"
 import { SessionProvider } from "next-auth/react"
 import "@/styles/index.css"
 import { auth } from "@/lib/auth"
-import { Navbar } from "@/components/common/navbar"
 import { Toaster } from "@/components/ui/toaster"
+import { cn } from "@/lib/utils"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,11 +21,8 @@ export default async function RootLayout({
   const session = await auth()
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <SessionProvider session={session}>
-          <Navbar />
-          {children}
-        </SessionProvider>
+      <body className={cn("", inter.className)}>
+        <SessionProvider session={session}>{children}</SessionProvider>
         <Toaster />
       </body>
     </html>

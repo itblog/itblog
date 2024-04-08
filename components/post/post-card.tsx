@@ -15,7 +15,9 @@ export const PostCard = ({ post }: { post: WithId<PostWithUser> }) => {
             {post.user?.name}
           </Link>
         </div>
-        <div className="whitespace-pre-wrap px-1 py-1">{post.content}</div>
+        <div className="whitespace-pre-wrap break-all px-1 py-1">
+          {post.content}
+        </div>
         <time
           className=" text-xs text-muted-foreground"
           dateTime={post.createdAt?.toLocaleString()}
