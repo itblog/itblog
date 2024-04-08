@@ -7,22 +7,24 @@ import type {
 } from "@auth/core/adapters"
 
 import {
+  User,
   createUser,
   getUserByEmail,
   getUserById,
   updateUserById,
 } from "@/models/user"
 import {
+  Session,
   createSession,
   deleteSession,
   getSession,
   updateSession,
 } from "@/models/session"
-import { createAccount, getAccount } from "@/models/account"
+import { Account, createAccount, getAccount } from "@/models/account"
 
 export const MyAdapter: Adapter = {
   createUser: async ({ id, ...data }) => {
-    const user = format.to<AdapterUser>(data)
+    const user = format.to<User>(data)
     user._id = await createUser(user)
     return format.from<AdapterUser>(user)
   },
@@ -53,17 +55,17 @@ export const MyAdapter: Adapter = {
     return format.from<AdapterUser>(user)
   },
   updateUser: async (data) => {
-    const { _id, ...user } = format.to<AdapterUser>(data)
+    const { _id, ...user } = format.to<User>(data)
     const result = await updateUserById(_id, user)
     return format.from<AdapterUser>(result!)
   },
   linkAccount: async (data) => {
-    const account = format.to<AdapterAccount>(data)
+    const account = format.to<Account>(data)
     await createAccount(account)
     return format.from<AdapterAccount>(account)
   },
   createSession: async (data) => {
-    const session = format.to<AdapterSession>(data)
+    const session = format.to<Session>(data)
     await createSession(session)
     return format.from<AdapterSession>(session)
   },
@@ -72,9 +74,7 @@ export const MyAdapter: Adapter = {
     if (!session) {
       return null
     }
-    const user = await getUserById(session.userId, {
-      projection: { name: 1, username: 1, image: 1 },
-    })
+    const user = await getUserById(session.userId)
     if (!user) {
       return null
     }
@@ -85,7 +85,7 @@ export const MyAdapter: Adapter = {
     }
   },
   updateSession: async (data) => {
-    const { _id, ...session } = format.to<AdapterSession>(data)
+    const { _id, ...session } = format.to<Session>(data)
     const updatedSession = await updateSession(session)
     return format.from<AdapterSession>(updatedSession!)
   },

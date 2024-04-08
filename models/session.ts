@@ -1,7 +1,11 @@
 import { AdapterSession } from "@auth/core/adapters"
 import { db } from "./db"
 
-export interface Session extends AdapterSession {}
+export interface Session {
+  sessionToken: string
+  userId: string
+  expires: Date
+}
 
 export const createSession = async (data: Session) => {
   const sessions = db.collection<Session>("sessions")
@@ -11,7 +15,6 @@ export const createSession = async (data: Session) => {
 
 export const getSession = async (sessionToken: string) => {
   const sessions = db.collection<Session>("sessions")
-
   return await sessions.findOne({ sessionToken })
 }
 

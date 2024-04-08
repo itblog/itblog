@@ -1,38 +1,54 @@
-import { type FindOptions, ObjectId } from "mongodb"
+import { FindOptions, ObjectId, OptionalId } from "mongodb"
 import { db } from "./db"
-import { AdapterUser } from "@auth/core/adapters"
 
-export interface User extends AdapterUser {
-  username?: string | null
-  password?: string
+export interface User {
+  name: string
+  username: string
+
+  image?: string
   bio?: string
+  email?: string
+  emailVerified?: Date
   githubUrl?: string
+
   createdAt: Date
   updatedAt: Date
 }
 
-export const getUserById = async (
-  id: string | ObjectId,
-  options?: FindOptions,
-) => {
+export const createUser = async (user: User) => {
+  if (user.username) {
+    const existsUser = await getUserByUsername(user.username)
+    if (existsUser) {
+      user.username = ""
+    }
+  }
+  const doc = {
+    ...user,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  }
+  const users = db.collection<User>("users")
+  const { insertedId } = await users.insertOne(doc)
+  if (user.username === "") {
+    updateUserById(insertedId, { username: insertedId.toHexString() })
+  }
+  return insertedId
+}
+
+export const getUserById = async (id: string | ObjectId) => {
   const users = db.collection<User>("users")
   const _id = typeof id === "string" ? new ObjectId(id) : id
-  const filter = { _id }
-  return await users.findOne(filter, options)
+  return await users.findOne({ _id })
 }
 
-export const getUserByEmail = async (email: string, options?: FindOptions) => {
+export const getUserByEmail = async (email: string) => {
   const users = db.collection<User>("users")
-  return await users.findOne({ email }, options)
+  return await users.findOne({ email })
 }
 
-export const getUserByUsername = async (
-  username: string,
-  options?: FindOptions,
-) => {
+export const getUserByUsername = async (username: string) => {
   const users = db.collection<User>("users")
-  const user = await users.findOne({ username }, options)
-  return user
+  return await users.findOne({ username })
 }
 
 export const updateUserById = async (
@@ -45,24 +61,4 @@ export const updateUserById = async (
   return await users.findOneAndUpdate(filter, {
     $set: { ...user, updatedAt: new Date() },
   })
-}
-
-export const createUser = async (user: User) => {
-  if (user.username) {
-    const existsUser = await getUserByUsername(user.username)
-    if (existsUser) {
-      user.username = null
-    }
-  }
-  const doc = {
-    ...user,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  }
-  const users = db.collection<User>("users")
-  const { insertedId } = await users.insertOne(doc)
-  if (!user.username) {
-    updateUserById(insertedId, { username: insertedId.toHexString() })
-  }
-  return insertedId
 }

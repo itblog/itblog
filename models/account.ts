@@ -1,11 +1,16 @@
-import { AdapterAccount } from "@auth/core/adapters"
 import { db } from "./db"
+import { ObjectId, OptionalId } from "mongodb"
 
-export interface Account extends AdapterAccount {}
+export interface Account {
+  userId: ObjectId
+  type: "oauth" | "email"
+  provider: string
+  providerAccountId: string
+}
 
-export const createAccount = async (data: Account) => {
+export const createAccount = async (account: Account) => {
   const accounts = db.collection<Account>("accounts")
-  return await accounts.insertOne(data)
+  return await accounts.insertOne(account)
 }
 
 export const getAccount = async (
@@ -13,8 +18,9 @@ export const getAccount = async (
   providerAccountId: string,
 ) => {
   const accounts = db.collection<Account>("accounts")
-  return await accounts.findOne({
+  const account = await accounts.findOne({
     provider,
     providerAccountId,
   })
+  return account
 }
