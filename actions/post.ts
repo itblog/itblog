@@ -21,7 +21,7 @@ export const submitPost = async (data: PostSchema) => {
   }
   const { content } = validation.data
 
-  const post: Post = {
+  const post = {
     userId: new ObjectId(user.id),
     content: content,
   }

@@ -13,15 +13,16 @@ export interface PostWithUser extends Post {
   user: WithId<User>
 }
 
-export const createPost = async (data: Post) => {
+export const createPost = async (
+  post: Omit<Post, "createdAt" | "updatedAt">,
+) => {
   const posts = db.collection<Post>("posts")
-  const doc: Post = {
-    ...data,
+
+  const { insertedId } = await posts.insertOne({
+    ...post,
     createdAt: new Date(),
     updatedAt: new Date(),
-  }
-
-  const { insertedId } = await posts.insertOne(doc)
+  })
 
   return insertedId
 }
