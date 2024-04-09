@@ -1,5 +1,5 @@
 import { db } from "./db"
-import { ObjectId, OptionalId } from "mongodb"
+import { ObjectId } from "mongodb"
 
 export interface Account {
   userId: ObjectId

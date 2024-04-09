@@ -22,7 +22,12 @@ export const PostCard = ({ post }: { post: WithId<PostWithUser> }) => {
               {formatDistanceToNow(post.createdAt, { addSuffix: true })}
             </time>
           </div>
-          <PostMenu post={post} />
+          <PostMenu
+            post={{
+              id: post._id.toHexString(),
+              userId: post.userId.toHexString(),
+            }}
+          />
         </div>
         <div className="whitespace-pre-wrap break-all py-4 text-primary/90">
           {post.content}

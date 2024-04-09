@@ -1,7 +1,7 @@
 "use server"
 
 import { getSessionUser } from "@/lib/auth"
-import { Post, createPost } from "@/models/post"
+import { createPost } from "@/models/post"
 import { PostSchema, postSchema } from "@/schemas/post"
 import { ObjectId } from "mongodb"
 import { revalidatePath } from "next/cache"
