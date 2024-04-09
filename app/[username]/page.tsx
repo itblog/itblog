@@ -26,7 +26,10 @@ export default async function Page({
       <div>
         <h1 className="text-2xl font-semibold">Posts</h1>
         {posts.map((post) => (
-          <PostCard post={{ ...post, user: user }} />
+          <PostCard
+            key={post._id.toHexString()}
+            post={{ ...post, user: user }}
+          />
         ))}
       </div>
     </main>

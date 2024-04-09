@@ -17,6 +17,10 @@ export interface PostMenuProps {
 export const PostMenu = ({ post }: PostMenuProps) => {
   const user = useSessionUser()
 
+  const handleRemove = async () => {
+    await removePost(post.id)
+  }
+
   return (
     <>
       <DropdownMenu>
@@ -25,12 +29,8 @@ export const PostMenu = ({ post }: PostMenuProps) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[180px]">
           {user?.id === post.userId && (
-            <DropdownMenuItem
-              onSelect={async () => {
-                await removePost(post.id)
-              }}
-            >
-              <span>Remove this post</span>
+            <DropdownMenuItem onSelect={handleRemove}>
+              <span className=" text-destructive">Remove this post</span>
             </DropdownMenuItem>
           )}
           <DropdownMenuItem>

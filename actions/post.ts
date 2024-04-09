@@ -36,7 +36,6 @@ export const removePost = async (id: string) => {
       error: "Unauthorized",
     }
   }
-  const post = await deletePostById(id, user.id)
-  console.log(post)
+  await deletePostById(id, user.id)
   revalidatePath("/")
 }
