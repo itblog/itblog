@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 import { useSessionUser } from "@/hooks/use-session-user"
+import { removePost } from "@/actions/post"
 
 export interface PostMenuProps {
   post: { id: string; userId: string }
@@ -20,11 +21,15 @@ export const PostMenu = ({ post }: PostMenuProps) => {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <DotsHorizontalIcon className="h-4 w-4 cursor-pointer text-muted-foreground" />
+          <DotsHorizontalIcon className="h-5 w-5 cursor-pointer text-muted-foreground" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[180px]">
           {user?.id === post.userId && (
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onSelect={async () => {
+                await removePost(post.id)
+              }}
+            >
               <span>Remove this post</span>
             </DropdownMenuItem>
           )}

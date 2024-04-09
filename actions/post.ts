@@ -1,7 +1,7 @@
 "use server"
 
 import { getSessionUser } from "@/lib/auth"
-import { createPost } from "@/models/post"
+import { createPost, deletePostById } from "@/models/post"
 import { PostSchema, postSchema } from "@/schemas/post"
 import { ObjectId } from "mongodb"
 import { revalidatePath } from "next/cache"
@@ -26,5 +26,17 @@ export const submitPost = async (data: PostSchema) => {
     content: content,
   }
   await createPost(post)
+  revalidatePath("/")
+}
+
+export const removePost = async (id: string) => {
+  const user = await getSessionUser()
+  if (!user) {
+    return {
+      error: "Unauthorized",
+    }
+  }
+  const post = await deletePostById(id, user.id)
+  console.log(post)
   revalidatePath("/")
 }

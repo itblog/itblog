@@ -46,8 +46,7 @@ export const UserMenu = () => {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          onSelect={(e) => {
-            e.preventDefault()
+          onSelect={() => {
             signOut()
           }}
           className="flex cursor-pointer items-center gap-x-2"
