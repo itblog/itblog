@@ -9,7 +9,7 @@ export default async function Page() {
     <>
       <PostForm />
       <h1 className="text-2xl">Posts</h1>
-      <div className="space-y-2">
+      <div>
         {posts.map((post) => (
           <PostCard post={post} key={post._id.toHexString()} />
         ))}

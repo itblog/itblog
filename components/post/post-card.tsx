@@ -7,7 +7,7 @@ import { PostMenu } from "./post-menu"
 
 export const PostCard = ({ post }: { post: WithId<PostWithUser> }) => {
   return (
-    <div className="flex gap-2 border-b">
+    <div className="flex gap-2 border-b py-4">
       <Link href={`/${post.user.username}`}>
         <UserAvatar user={post.user} />
       </Link>
@@ -29,7 +29,7 @@ export const PostCard = ({ post }: { post: WithId<PostWithUser> }) => {
             }}
           />
         </div>
-        <div className="whitespace-pre-wrap break-all py-4 text-primary/90">
+        <div className="whitespace-pre-wrap break-all text-primary/90">
           {post.content}
         </div>
       </div>

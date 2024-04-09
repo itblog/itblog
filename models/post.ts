@@ -27,15 +27,40 @@ export const createPost = async (
   return insertedId
 }
 
-export const getPosts = async () => {
+export const getUserPosts = async (
+  userId: string | ObjectId,
+  page: number = 1,
+  limit: number = 10,
+) => {
   const posts = db.collection<Post>("posts")
-  const docs = await posts.find().limit(10).toArray()
+  const _userId = typeof userId === "string" ? new ObjectId(userId) : userId
+  const skip = (page - 1) * limit
+  const docs = await posts
+    .find({
+      userId: _userId,
+    })
+    .skip(skip)
+    .limit(limit)
+    .toArray()
   return docs
 }
 
-export const getLatestPosts = async () => {
+export const getLatestPosts = async (page: number = 1, limit: number = 10) => {
   const posts = db.collection<Post>("posts")
   const pipeline = []
+
+  pipeline.push({
+    $sort: { createdAt: -1 },
+  })
+
+  const skip = (page - 1) * limit
+  pipeline.push({
+    $skip: skip,
+  })
+  pipeline.push({
+    $limit: limit,
+  })
+
   pipeline.push({
     $lookup: {
       from: "users",
@@ -44,6 +69,7 @@ export const getLatestPosts = async () => {
       as: "_user",
     },
   })
+
   pipeline.push({
     $set: {
       user: {
@@ -51,11 +77,12 @@ export const getLatestPosts = async () => {
       },
     },
   })
-  const docs = (await posts
-    .aggregate(pipeline)
-    .limit(50)
-    .sort({ _id: -1 })
-    .toArray()) as WithId<PostWithUser>[]
 
-  return docs
+  pipeline.push({
+    $unset: ["_user"],
+  })
+
+  const docs = await posts.aggregate(pipeline).toArray()
+
+  return docs as WithId<PostWithUser>[]
 }
