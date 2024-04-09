@@ -13,6 +13,20 @@ export const {
   pages: {
     signIn: "/auth/login",
   },
+  callbacks: {
+    async session({ session }) {
+      return {
+        user: {
+          id: session.user.id,
+          name: session.user.name,
+          email: session.user.email,
+          image: session.user.image,
+          username: session.user.username,
+        },
+        expires: session.expires,
+      }
+    },
+  },
   ...authConfig,
 })
 

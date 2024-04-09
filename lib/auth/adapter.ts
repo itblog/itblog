@@ -78,7 +78,6 @@ export const MyAdapter: Adapter = {
     if (!user) {
       return null
     }
-
     return {
       session: format.from<AdapterSession>(session),
       user: format.from<AdapterUser>(user),
